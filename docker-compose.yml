@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  express-starter-template:
+    build: .
+    image: express-starter-template
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - express-starter-template-network
+  mongodb:
+    image: mongo:7
+    restart: on-failure
+    ports:
+      - '27017:27017'
+    volumes:
+      - db_data:/data/db
+    networks:
+      - express-starter-template-network
+
+volumes:
+  db_data:
+
+networks:
+  express-starter-template-network:
+    driver: bridge

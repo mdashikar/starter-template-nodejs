@@ -57,7 +57,7 @@ const updateUserProfileValidator = (data) => {
     }),
   });
   return schema.validate(data, options);
-}
+};
 
 module.exports = {
   registerUserValidator,
@@ -65,5 +65,5 @@ module.exports = {
   forgotPasswordValidator,
   resetPasswordValidator,
   verifyUserEmailValidator,
-  updateUserProfileValidator
+  updateUserProfileValidator,
 };

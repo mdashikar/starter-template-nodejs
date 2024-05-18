@@ -16,12 +16,10 @@ module.exports = async (req, res, next) => {
   }
   const token = authHeader.split(' ')[1];
 
-
   const decodedToken = verifyAccessToken(token);
   if (!decodedToken) {
     return res.sendStatus(FORBIDDEN.code); // Forbidden
   }
-
 
   req.user = decodedToken.user;
   req.user.ac = ac;

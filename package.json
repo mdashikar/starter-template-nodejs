@@ -2,8 +2,9 @@
   "name": "starter-template-nodejs",
   "version": "1.0.0",
   "description": "Create a Node.js app for building production-ready RESTful APIs using Express, MongoDb, and Mongoose",
+  "bin": "bin/createApp.js",
   "main": "src/index.js",
-  "repository": "",
+  "repository": "https://github.com/mdashikar/starter-template-nodejs",
   "author": "Md Ashiqur Rahman <md.ashik.ar@gmail.com>",
   "husky": {
     "hooks": {

@@ -13,10 +13,10 @@ const connectDb = () => {
   mongoose.set('toObject', { virtuals: true });
   mongoose.set('toJSON', { virtuals: true });
 
-  mongoose.connect(dbURL, dbOptions)
+  mongoose
+    .connect(dbURL, dbOptions)
     .then(() => logger.info('Database connected!'))
-    .catch(err => logger.error(`FAILED to connect using mongoose. ${err}`));
-
+    .catch((err) => logger.error(`FAILED to connect using mongoose. ${err}`));
 };
 
 module.exports = { connectDb };

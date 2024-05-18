@@ -13,7 +13,7 @@ const {
 
 const {
   status: { VERIFIED },
-  providers : { GOOGLE },
+  providers: { GOOGLE },
 } = require('./user.enum');
 const { INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, BAD_REQUEST } = require('../utils/errors');
 const { randomTokenString } = require('../utils/generateTokenString');
@@ -23,7 +23,9 @@ const logger = require('../utils/logger');
 const validationMessage = require('../helpers/validationMessageFormatter.helper');
 const hashPassword = require('../helpers/hashPassword.helper');
 
-const { google: { GOOGLE_OAUTH_CID } } = require('../config/config')
+const {
+  google: { GOOGLE_OAUTH_CID },
+} = require('../config/config');
 
 const {
   registerUserValidator,
@@ -31,12 +33,11 @@ const {
   forgotPasswordValidator,
   resetPasswordValidator,
   verifyUserEmailValidator,
-  updateUserProfileValidator
+  updateUserProfileValidator,
 } = require('./user.validator');
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../helpers/jwt.helper');
 
-
-const retrieveUserFromGoogleToken = async token => {
+const retrieveUserFromGoogleToken = async (token) => {
   const client = new OAuth2Client(GOOGLE_OAUTH_CID);
   const ticket = await client.verifyIdToken({
     idToken: token,
@@ -47,10 +48,7 @@ const retrieveUserFromGoogleToken = async token => {
 };
 
 const generateTokens = async (user, cookies, res) => {
-  const {
-    id,
-    role,
-  } = user;
+  const { id, role } = user;
 
   // Generate a new access token
   const accessToken = generateAccessToken({ user: { id, role } });
@@ -194,14 +192,14 @@ const loginUserHandler = async (req, res) => {
 const loginGoogleHandler = async (req, res) => {
   try {
     const cookies = req.cookies;
-    const { credential } = req.body
+    const { credential } = req.body;
     if (!credential) {
       return res.status(UNPROCESSABLE_ENTITY.code).json({
         message: UNPROCESSABLE_ENTITY.message,
-        error: "Google auth credential required",
+        error: 'Google auth credential required',
       });
     }
-    const userDetails = await retrieveUserFromGoogleToken(credential)
+    const userDetails = await retrieveUserFromGoogleToken(credential);
     if (!userDetails) {
       return res.status(BAD_REQUEST.code).json({
         message: 'Something went wrong, try again!',
@@ -209,11 +207,9 @@ const loginGoogleHandler = async (req, res) => {
       });
     }
 
-    const {
-      email, name, avatar
-    } = userDetails;
+    const { email, name, avatar } = userDetails;
 
-    const user = await getUserByEmail(email)
+    const user = await getUserByEmail(email);
 
     if (!user) {
       const createdUser = await createUser({
@@ -222,7 +218,7 @@ const loginGoogleHandler = async (req, res) => {
         avatar,
         status: VERIFIED,
         provider: GOOGLE,
-        verifiedAt: new Date()
+        verifiedAt: new Date(),
       });
 
       if (!createdUser) {
@@ -245,7 +241,9 @@ const loginGoogleHandler = async (req, res) => {
         maxAge: maxAgeInMilliseconds,
       });
       const userProfile = await getUserProfileById(createdUser._id);
-      return res.status(201).json({ success: true, message: 'User registered successfully', accessToken, user: userProfile});
+      return res
+        .status(201)
+        .json({ success: true, message: 'User registered successfully', accessToken, user: userProfile });
     }
 
     const { accessToken, newRefreshToken } = await generateTokens(user, cookies, res);
@@ -263,14 +261,13 @@ const loginGoogleHandler = async (req, res) => {
 
     // Send authorization access token to user
     res.json({ accessToken });
-
   } catch (err) {
     logger.error(err);
     return res.status(INTERNAL_SERVER_ERROR.code).json({
       message: INTERNAL_SERVER_ERROR.message,
     });
   }
-}
+};
 
 const userProfileHandler = async (req, res) => {
   try {
@@ -314,19 +311,19 @@ const updateUserProfileHandler = async (req, res) => {
     // Update user fields if they exist in the request body
     if (name) user.name = name;
     if (email && user.email !== email) {
-      const isEmailExits = await getUserByEmail(email)
-      if(isEmailExits){
+      const isEmailExits = await getUserByEmail(email);
+      if (isEmailExits) {
         return res.status(BAD_REQUEST.code).json({
-          message: "This email already used by another user! Please try again with different email",
+          message: 'This email already used by another user! Please try again with different email',
         });
       }
-      user.email = email
-    };
+      user.email = email;
+    }
     if (avatar) user.avatar = avatar;
 
     if (currentPassword) {
       // Check the current password
-      const isPasswordValid = await user.isValidPassword(currentPassword)
+      const isPasswordValid = await user.isValidPassword(currentPassword);
 
       if (!isPasswordValid) {
         return res.status(401).json({ error: 'Incorrect current password' });
@@ -337,10 +334,9 @@ const updateUserProfileHandler = async (req, res) => {
       user.password = await hashPassword(newPassword);
     }
 
-    const updatedUser =  await updateUserById(user.id, user);
+    const updatedUser = await updateUserById(user.id, user);
 
     res.json({ message: 'Profile updated successfully', user: updatedUser });
-
   } catch (error) {
     logger.error(error);
     return res.status(INTERNAL_SERVER_ERROR.code).json({
@@ -351,7 +347,6 @@ const updateUserProfileHandler = async (req, res) => {
 
 const refreshTokenHandler = async (req, res) => {
   try {
-
     const cookies = req.cookies;
     if (!cookies?.refreshToken) return res.sendStatus(401);
     const refreshToken = cookies.refreshToken;
@@ -382,7 +377,7 @@ const refreshTokenHandler = async (req, res) => {
     // create JWTs
     const { user: decodedUser } = decodedToken;
 
-    console.log({ decodedUser})
+    console.log({ decodedUser });
 
     const accessToken = generateAccessToken({ user: { ...decodedUser } });
     const newRefreshToken = generateRefreshToken({ user: { ...decodedUser } });
@@ -553,5 +548,5 @@ module.exports = {
   resetPasswordHandler,
   forgotPasswordHandler,
   verifyUserEmailHandler,
-  loginGoogleHandler
+  loginGoogleHandler,
 };

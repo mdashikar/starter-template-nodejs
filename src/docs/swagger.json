@@ -154,10 +154,7 @@
         }
       },
       "Login": {
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {
@@ -190,9 +187,7 @@
     "/auth/token": {
       "get": {
         "summary": "Get auth token",
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "responses": {
           "200": {
             "$ref": "#/components/responses/SuccessResponse"
@@ -218,9 +213,7 @@
     "/auth/login": {
       "post": {
         "summary": "Login ",
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "requestBody": {
           "required": true,
           "content": {

@@ -2,5 +2,5 @@ version: '3'
 
 services:
   express-starter-template-api:
-    container_name:  express-starter-template-api-test
-    command: npm run test
+    container_name: express-starter-template-api-test
+    command: yarn test

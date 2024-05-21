@@ -53,12 +53,10 @@ cp .env.example .env
 - [Environment Variables](#environment-variables)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
-- [Error Handling](#error-handling)
 - [Validation](#validation)
 - [Authentication](#authentication)
 - [Authorization](#authorization)
 - [Logging](#logging)
-- [Custom Mongoose Plugins](#custom-mongoose-plugins)
 - [Linting](#linting)
 - [Contributing](#contributing)
 

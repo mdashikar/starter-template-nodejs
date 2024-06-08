@@ -15,17 +15,17 @@ const {
   status: { VERIFIED },
   providers: { GOOGLE },
 } = require('./user.enum');
-const { INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, BAD_REQUEST } = require('../utils/errors');
-const { randomTokenString } = require('../utils/generateTokenString');
+const { INTERNAL_SERVER_ERROR, UNPROCESSABLE_ENTITY, BAD_REQUEST } = require('../../utils/errors');
+const { randomTokenString } = require('../../utils/generateTokenString');
 
-const { sendVerificationEmail, sendPasswordResetEmail } = require('../utils/sendEmail');
-const logger = require('../utils/logger');
-const validationMessage = require('../helpers/validationMessageFormatter.helper');
-const hashPassword = require('../helpers/hashPassword.helper');
+const { sendVerificationEmail, sendPasswordResetEmail } = require('../../utils/sendEmail');
+const logger = require('../../utils/logger');
+const validationMessage = require('../../helpers/validationMessageFormatter.helper');
+const hashPassword = require('../../helpers/hashPassword.helper');
 
 const {
   google: { GOOGLE_OAUTH_CID },
-} = require('../config/config');
+} = require('../../config/config');
 
 const {
   registerUserValidator,
@@ -35,7 +35,7 @@ const {
   verifyUserEmailValidator,
   updateUserProfileValidator,
 } = require('./user.validator');
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../helpers/jwt.helper');
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../../helpers/jwt.helper');
 
 const retrieveUserFromGoogleToken = async (token) => {
   const client = new OAuth2Client(GOOGLE_OAUTH_CID);
@@ -62,7 +62,7 @@ const generateTokens = async (user, cookies, res) => {
     : user.refreshToken.filter((rt) => rt !== cookies.refreshToken);
 
   if (cookies?.refreshToken) {
-    const refreshToken = cookies.refreshToken;
+    const { refreshToken } = cookies;
     const foundToken = await getUserByRefreshToken(refreshToken);
 
     // Detected refresh token reuse!
@@ -85,7 +85,7 @@ const generateTokens = async (user, cookies, res) => {
 const registerUserHandler = async (req, res) => {
   try {
     const origin = req.get('origin') || 'http://localhost:3000';
-    const cookies = req.cookies;
+    const { cookies } = req;
     const { name, email, password } = req.body;
 
     const validateUserRegisterInputs = registerUserValidator(req.body);
@@ -109,7 +109,7 @@ const registerUserHandler = async (req, res) => {
     // create verification token that expires after 24 hours
     const verificationToken = {
       token: randomTokenString(),
-      expiresAt: expiresAt,
+      expiresAt,
     };
 
     // Create a new user
@@ -146,7 +146,7 @@ const registerUserHandler = async (req, res) => {
 
 const loginUserHandler = async (req, res) => {
   try {
-    const cookies = req.cookies;
+    const { cookies } = req;
     const { email, password } = req.body;
 
     const validateUserLoginInputs = loginUserValidator(req.body);
@@ -191,7 +191,7 @@ const loginUserHandler = async (req, res) => {
 
 const loginGoogleHandler = async (req, res) => {
   try {
-    const cookies = req.cookies;
+    const { cookies } = req;
     const { credential } = req.body;
     if (!credential) {
       return res.status(UNPROCESSABLE_ENTITY.code).json({
@@ -347,9 +347,9 @@ const updateUserProfileHandler = async (req, res) => {
 
 const refreshTokenHandler = async (req, res) => {
   try {
-    const cookies = req.cookies;
+    const { cookies } = req;
     if (!cookies?.refreshToken) return res.sendStatus(401);
-    const refreshToken = cookies.refreshToken;
+    const { refreshToken } = cookies;
     res.clearCookie('refreshToken');
 
     const user = await getUserByRefreshToken(refreshToken);
@@ -362,7 +362,7 @@ const refreshTokenHandler = async (req, res) => {
       const hackedUser = await getUserById(decodedToken.user.id);
       hackedUser.refreshToken = [];
       await updateUserById(hackedUser.id, hackedUser);
-      return res.sendStatus(403); //Forbidden
+      return res.sendStatus(403); // Forbidden
     }
 
     const newRefreshTokenArray = user.refreshToken.filter((rt) => rt !== refreshToken);
@@ -376,8 +376,6 @@ const refreshTokenHandler = async (req, res) => {
 
     // create JWTs
     const { user: decodedUser } = decodedToken;
-
-    console.log({ decodedUser });
 
     const accessToken = generateAccessToken({ user: { ...decodedUser } });
     const newRefreshToken = generateRefreshToken({ user: { ...decodedUser } });
@@ -407,9 +405,9 @@ const refreshTokenHandler = async (req, res) => {
 };
 
 const logoutUserHandler = async (req, res) => {
-  const cookies = req.cookies;
-  if (!cookies?.refreshToken) return res.sendStatus(204); //No content
-  const refreshToken = cookies.refreshToken;
+  const { cookies } = req;
+  if (!cookies?.refreshToken) return res.sendStatus(204); // No content
+  const { refreshToken } = cookies;
 
   // Is refreshToken in db?
   const user = await getUserByRefreshToken(refreshToken);
@@ -487,7 +485,7 @@ const forgotPasswordHandler = async (req, res) => {
     // create reset token that expires after 24 hours
     user.resetPasswordToken = {
       token: randomTokenString(),
-      expiresAt: expiresAt,
+      expiresAt,
     };
     await updateUserById(user.id, user);
     // send email

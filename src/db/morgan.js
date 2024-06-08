@@ -1,5 +1,5 @@
 const morgan = require('morgan');
-const config = require('./config');
+const config = require('../config/config');
 const logger = require('../utils/logger');
 
 morgan.token('message', (req, res) => res.locals.errorMessage || '');

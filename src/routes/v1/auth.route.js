@@ -11,7 +11,7 @@ const {
   forgotPasswordHandler,
   resetPasswordHandler,
   logoutUserHandler,
-} = require('../../users/user.controller');
+} = require('../../modules/users/user.controller');
 
 router.post('/login', loginUserHandler);
 router.post('/login/google', loginGoogleHandler);

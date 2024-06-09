@@ -1,9 +1,9 @@
 const express = require('express');
 const docsRoute = require('./docs.route');
 const authRoutes = require('./auth.route');
+const { authMiddleware } = require('../../middlewares');
 
 const router = express.Router();
-const authMiddleware = require('../../middlewares/auth.middleware');
 
 const publicRoutes = [
   {

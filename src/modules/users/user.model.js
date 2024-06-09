@@ -11,7 +11,7 @@ const {
   providers,
 } = require('./user.enum');
 
-const hashPassword = require('../helpers/hashPassword.helper');
+const hashPassword = require('../../helpers/hashPassword.helper');
 
 const userSchema = new Schema(
   {
@@ -78,11 +78,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.isValidPassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);
-  } catch (error) {
-    throw error;
-  }
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model('User', userSchema);

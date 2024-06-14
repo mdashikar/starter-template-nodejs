@@ -17,8 +17,8 @@
   "scripts": {
     "start": "pm2 start ecosystem.config.json --no-daemon",
     "dev": "nodemon -L src/index.js",
-    "test": "jest -i --colors --verbose --detectOpenHandles",
-    "test:watch": "jest -i --watchAll",
+    "test": "cross-env NODE_ENV=test jest ./test",
+    "test:watch": "cross-env NODE_ENV=test jest ./test --watch --colors --verbose",
     "coverage": "jest -i --coverage",
     "coverage:coveralls": "jest -i --coverage --coverageReporters=text-lcov | coveralls",
     "lint": "eslint .",
@@ -30,6 +30,9 @@
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "docker:dev:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down --remove-orphans",
     "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
+    "test:docker": "docker-compose --file docker-compose.test.yml up --abort-on-container-exit --exit-code-from nodejs-starter",
+    "test:docker:rebuild": "docker-compose --file docker-compose.test.yml build --no-cache",
+    "posttest:docker": "docker-compose --file docker-compose.test.yml down --remove-orphans",
     "prepare": "husky install"
   },
   "keywords": [
@@ -81,6 +84,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@faker-js/faker": "^8.4.1",
+    "@types/jest": "^29.5.12",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^8.1.0",
@@ -88,10 +93,10 @@
     "eslint-plugin-jest": "^24.0.1",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-security": "^1.4.0",
-    "faker": "^5.1.0",
     "husky": "^7.0.4",
-    "jest": "^26.0.1",
+    "jest": "^26.6.3",
     "nodemon": "^3.1.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "supertest": "^7.0.0"
   }
 }

@@ -3,4 +3,4 @@ version: '3'
 services:
   express-starter-template:
     container_name: express-starter-template-dev
-    command: yarn dev
+    command: npm dev

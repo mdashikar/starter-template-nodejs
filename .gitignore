@@ -4,6 +4,9 @@ node_modules
 # yarn error logs
 yarn-error.log
 
+# npm error logs
+
+
 # Environment varibales
 .env*
 !.env*.example

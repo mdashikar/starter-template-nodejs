@@ -11,13 +11,13 @@ By running a single command, you will get a production-ready Node.js app install
 To create a project, simply run:
 
 ```bash
-npx create-starter-template-node-app <project-name>
+npx create-starter-template-nodejs <project-name>
 ```
 
 Or
 
 ```bash
-npm init starter-template-node-app <project-name>
+npm init starter-template-nodejs <project-name>
 ```
 
 ## Manual Installation
@@ -35,7 +35,7 @@ npx rimraf ./.git
 Install the dependencies:
 
 ```bash
-yarn install
+npm install
 ```
 
 Set the environment variables:
@@ -69,7 +69,7 @@ cp .env.example .env
 - **Testing**: unit and integration tests using [Jest](https://jestjs.io)
 - **API documentation**: with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) and [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
 - **Process management**: advanced production process management using [PM2](https://pm2.keymetrics.io)
-- **Dependency management**: with [Yarn](https://yarnpkg.com)
+- **Dependency management**: with [NPM](https://www.npmjs.com)
 - **Environment variables**: using [dotenv](https://github.com/motdotla/dotenv) and [cross-env](https://github.com/kentcdodds/cross-env#readme)
 - **Security**: set security HTTP headers using [helmet](https://helmetjs.github.io)
 - **Santizing**: sanitize request data against xss and query injection
@@ -85,55 +85,55 @@ cp .env.example .env
 Running locally:
 
 ```bash
-yarn dev
+npm dev
 ```
 
 Running in production:
 
 ```bash
-yarn start
+npm start
 ```
 
 Testing:
 
 ```bash
 # run all tests
-yarn test
+npm test
 
 # run all tests in watch mode
-yarn test:watch
+npm test:watch
 
 # run test coverage
-yarn coverage
+npm coverage
 ```
 
 Docker:
 
 ```bash
 # run docker container in development mode
-yarn docker:dev
+npm docker:dev
 
 # run docker container in production mode
-yarn docker:prod
+npm docker:prod
 
 # run all tests in a docker container
-yarn docker:test
+npm docker:test
 ```
 
 Linting:
 
 ```bash
 # run ESLint
-yarn lint
+npm lint
 
 # fix ESLint errors
-yarn lint:fix
+npm lint:fix
 
 # run prettier
-yarn prettier
+npm prettier
 
 # fix prettier errors
-yarn prettier:fix
+npm prettier:fix
 ```
 
 ## Environment Variables

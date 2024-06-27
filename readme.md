@@ -164,7 +164,7 @@ JWT_REFRESH_EXPIRATION_DAYS=30
 SMTP_HOST=smtp-relay.brevo.com
 
 SMTP_PORT=587
-SMTP_AUTH_USER=md.ashiq.ar@gmail.com
+SMTP_AUTH_USER=601f7f001@smtp-brevo.com
 
 SMTP_AUTH_PASSWORD=BRGVQs6vacTC37d5
 MAIL_FORM=support@starter-template-nodejs.com

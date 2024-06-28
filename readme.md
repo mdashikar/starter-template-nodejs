@@ -1,4 +1,4 @@
-# RESTful API Node Starter Template
+[# RESTful API Node Starter Template
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
@@ -350,3 +350,4 @@ Your support is greatly appreciated.
 ## License
 
 [MIT](LICENSE)
+](https://github.com/mdashikar/starter-template-nodejs)

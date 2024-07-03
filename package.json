@@ -1,6 +1,6 @@
 {
   "name": "create-starter-template-nodejs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Create a Node.js app for building production-ready RESTful APIs using Express, MongoDb, and Mongoose",
   "bin": {
     "create-starter-template-nodejs": "bin/createApp.js"

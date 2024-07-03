@@ -1,4 +1,4 @@
-# RESTful API Node Starter Template
+[# RESTful API Node Starter Template
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
@@ -164,7 +164,7 @@ JWT_REFRESH_EXPIRATION_DAYS=30
 SMTP_HOST=smtp-relay.brevo.com
 
 SMTP_PORT=587
-SMTP_AUTH_USER=md.ashiq.ar@gmail.com
+SMTP_AUTH_USER=601f7f001@smtp-brevo.com
 
 SMTP_AUTH_PASSWORD=BRGVQs6vacTC37d5
 MAIL_FORM=support@starter-template-nodejs.com
@@ -335,6 +335,12 @@ To maintain a consistent coding style across different IDEs, the project contain
 
 Contributions are more than welcome! Please check out the [contributing guide](CONTRIBUTING.md).
 
+## Support Development
+If this project saved your valuable time in getting your service up, and you feel like buying me coffee  <br />
+<a href="https://buymeacoffee.com/mdashikar" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+Your support is greatly appreciated.
+
 ## Inspirations
 
 - [hagopj13/node-express-boilerplate](https://github.com/hagopj13/node-express-boilerplate)
@@ -344,3 +350,4 @@ Contributions are more than welcome! Please check out the [contributing guide](C
 ## License
 
 [MIT](LICENSE)
+](https://github.com/mdashikar/starter-template-nodejs)

@@ -31,9 +31,9 @@ async function hasYarn() {
 if (process.argv.length < 3) {
   console.log('Please specify the target project directory.');
   console.log('For example:');
-  console.log('    npx create-nodejs-app my-app');
+  console.log('    npx create-starter-template-nodejs my-app');
   console.log('    OR');
-  console.log('    npm init nodejs-app my-app');
+  console.log('    npm init starter-template-nodejs my-app');
   process.exit(1);
 }
 

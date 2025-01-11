@@ -1,6 +1,7 @@
 const express = require('express');
 const docsRoute = require('./docs.route');
 const authRoutes = require('./auth.route');
+const userRoutes = require('./user.route');
 const { authMiddleware } = require('../../middlewares');
 
 const router = express.Router();
@@ -12,7 +13,12 @@ const publicRoutes = [
   },
 ];
 
-const authGuardedRoutes = [];
+const authGuardedRoutes = [
+  {
+    path: '/users',
+    route: userRoutes,
+  },
+];
 
 const devRoutes = [
   // routes available only in development mode

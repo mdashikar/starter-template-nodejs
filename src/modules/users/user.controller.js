@@ -9,6 +9,7 @@ const {
   updateUserById,
   getUserByResetPassToken,
   getUserByVerifyEmailToken,
+  deleteUserById,
 } = require('./user.service');
 
 const {
@@ -224,9 +225,6 @@ const loginGoogleHandler = async (req, res) => {
       if (!createdUser) {
         return res.status(BAD_REQUEST.code).json({ success: true, message: 'Unable to register user at this moment.' });
       }
-
-      createdUser.workspaces.push(workspaceWithRole);
-      createdUser.defaultWorkspace = workspaceWithRole;
 
       const { accessToken, newRefreshToken } = await generateTokens(createdUser, cookies, res);
 
@@ -536,6 +534,25 @@ const resetPasswordHandler = async (req, res) => {
   }
 };
 
+const deleteUserHandler = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await getUserById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    await deleteUserById(user.id);
+
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    logger.error(error);
+    return res.status(INTERNAL_SERVER_ERROR.code).json({
+      message: INTERNAL_SERVER_ERROR.message,
+    });
+  }
+};
+
 module.exports = {
   loginUserHandler,
   registerUserHandler,
@@ -547,4 +564,5 @@ module.exports = {
   forgotPasswordHandler,
   verifyUserEmailHandler,
   loginGoogleHandler,
+  deleteUserHandler,
 };

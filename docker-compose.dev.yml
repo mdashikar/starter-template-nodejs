@@ -1,6 +1,4 @@
-version: '3'
-
 services:
   express-starter-template:
     container_name: express-starter-template-dev
-    command: npm dev
+    command: npm run dev

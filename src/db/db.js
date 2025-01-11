@@ -13,10 +13,18 @@ const connectDb = () => {
   mongoose.set('toObject', { virtuals: true });
   mongoose.set('toJSON', { virtuals: true });
 
-  mongoose
-    .connect(dbURL, dbOptions)
-    .then(() => logger.info('Database connected!'))
-    .catch((err) => logger.error(`FAILED to connect using mongoose. ${err}`));
+  const connectWithRetry = () => {
+    mongoose
+      .connect(dbURL, dbOptions)
+      .then(() => logger.info('Database connected!'))
+      .catch((err) => {
+        logger.error(`FAILED to connect using mongoose. ${err}`);
+        logger.info('Retrying in 5 seconds...');
+        setTimeout(connectWithRetry, 5000);
+      });
+  };
+
+  connectWithRetry();
 };
 
 module.exports = { connectDb };

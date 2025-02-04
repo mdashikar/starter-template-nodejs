@@ -167,6 +167,12 @@ const loginUserHandler = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    if (user.provider === GOOGLE) {
+      return res
+        .status(400)
+        .json({ message: 'Your account is registered with Google. Please login with your Google account.' });
+    }
+
     const { accessToken, newRefreshToken } = await generateTokens(user, cookies, res);
 
     const maxAgeInDays = 10;
